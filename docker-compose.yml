@@ -4,10 +4,10 @@ services:
   bot:
     build: .
     ports:
-      - 7001:7001
+      - "7001:7001"
     environment:
       - "CONTEXT_PATH=/"
-      - "WEBHOOK_URL_PROJ=https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=ABCDEFG"
+      - "WEBHOOK_URL_XXX=XXXX"
     deploy:
       replicas: 1
       resources:

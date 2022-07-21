@@ -1,22 +1,22 @@
 'use strict';
 
 const Controller = require('egg').Controller;
-const S = require('string')
+const S = require('string');
 
 class HomeController extends Controller {
   async index() {
     const { ctx } = this;
-    const { path = '' } = ctx.params
+    const { path = '' } = ctx.params;
 
     const webhookUrl = process.env['WEBHOOK_URL' + (path ? '_' + path.toUpperCase() : '')];
 
-    ctx.logger.info('request body: ', ctx.request.body);
+    ctx.logger.error('request body: ', ctx.request.body);
     const message = await ctx.service.webhook.translateMsg(ctx.request.body);
 
     if (!message) {
-      ctx.logger.info('====> message is empty, suppressed.')
-      ctx.body = { msg: 'message is empty or not supported, suppressed.' }
-      return 
+      ctx.logger.info('====> message is empty, suppressed.');
+      ctx.body = { msg: 'message is empty or not supported, suppressed.' };
+      return;
     }
 
 
@@ -25,7 +25,7 @@ class HomeController extends Controller {
       ctx.body = {
         error: 'webhook url error, webhookUrl: ' + webhookUrl,
       };
-      return
+      return;
     }
 
     const result = await ctx.curl(webhookUrl, {
